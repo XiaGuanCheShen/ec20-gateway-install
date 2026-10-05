@@ -28,9 +28,9 @@ printf '%s\n' '[ssh.github.com]:443 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkV
 
 export GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null GIT_TERMINAL_PROMPT=0
 export GIT_SSH_COMMAND="ssh -F /dev/null -i $tmp/identity -o IdentitiesOnly=yes -o BatchMode=yes -o ConnectTimeout=10 -o StrictHostKeyChecking=yes -o GlobalKnownHostsFile=/dev/null -o UserKnownHostsFile=$tmp/known_hosts"
-git -c core.hooksPath=/dev/null clone --quiet --depth 1 --single-branch --branch v2.0.8 \
+git -c core.hooksPath=/dev/null clone --quiet --depth 1 --single-branch --branch v2.0.9 \
     ssh://git@ssh.github.com:443/XiaGuanCheShen/ec20-gateway-delivery.git "$tmp/repo"
-[[ "$(git -C "$tmp/repo" rev-parse HEAD)" == 6ed558c25e586390f19e3265cf6ed975b77293de ]] \
+[[ "$(git -C "$tmp/repo" rev-parse HEAD)" == ee88b07f1441f39ca87482dec1fa19a1f7f486c6 ]] \
     || fail 'Delivery version changed; obtain a new install command.'
 EC20_INSTALL_IDENTITY="$tmp/identity" EC20_INSTALL_KNOWN_HOSTS="$tmp/known_hosts" \
     bash "$tmp/repo/scripts/customer-install.sh" </dev/tty
