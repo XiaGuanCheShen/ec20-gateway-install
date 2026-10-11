@@ -44,9 +44,9 @@ printf '%s\n' '[ssh.github.com]:443 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkV
 export GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null GIT_TERMINAL_PROMPT=0
 export GIT_SSH_COMMAND="ssh -F /dev/null -i $tmp/identity -o IdentitiesOnly=yes -o BatchMode=yes -o ConnectTimeout=10 -o StrictHostKeyChecking=yes -o GlobalKnownHostsFile=/dev/null -o UserKnownHostsFile=$tmp/known_hosts"
 echo '下载已固定版本的交付程序...'
-git -c core.hooksPath=/dev/null clone --quiet --depth 1 --single-branch --branch v2.1.11 \
+git -c core.hooksPath=/dev/null clone --quiet --depth 1 --single-branch --branch v3.0.2-install \
     ssh://git@ssh.github.com:443/XiaGuanCheShen/ec20-gateway-delivery.git "$tmp/repo"
-[[ "$(git -C "$tmp/repo" rev-parse HEAD)" == c6aa3a7d60ee30bf6ab379fe9a1afdcf8382a439 ]] || fail 'Delivery commit changed; obtain a new command.'
+[[ "$(git -C "$tmp/repo" rev-parse HEAD)" == 82b1f5e50f7db3c924878a5fdc7bf5d2ab341196 ]] || fail 'Delivery commit changed; obtain a new command.'
 python3 - "$tmp/repo/license-keys.json" <<'PY'
 import json, sys
 from pathlib import Path
