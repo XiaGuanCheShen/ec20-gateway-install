@@ -1,4 +1,4 @@
-# EC20 3.0.7 Customer Bootstrap
+# EC20 3.0.8 Customer Bootstrap
 
 Public installer entry only. This repository contains no gateway source,
 customer credentials, private keys, or customer data.
@@ -9,11 +9,11 @@ terminal on Debian 12/13 amd64, enter the root password when prompted, then
 paste the signed `D1` installation credential into the hidden prompt.
 
 Use [installation-command.txt](installation-command.txt) for the pinned, ASCII-only
-3.0.7 installation command. The command itself contains no private credential.
+3.0.8 installation command. The command itself contains no private credential.
 
 The bootstrap verifies the credential using the publisher's public signing key,
-clones `v3.0.7` of the private delivery repository, checks commit
-`95f0adf9480d821eab4ddbf7b4ad8b5f49a57523` and the authorization public keys,
+clones `v3.0.8` of the private delivery repository, checks commit
+`dccb8a13504bd6615991b6e7f2b10a1849403270` and the authorization public keys,
 then starts the installation wizard. Customers read and confirm the usage notice,
 scan and initialize modules through Web, and send the resulting application code
 to the publisher for an activation code. The activation binds the installation
@@ -23,11 +23,11 @@ The signed installation credential carries read-only repository access. Module
 activation is issued separately after initialization. Keep the credential private.
 Temporary credentials are removed on exit.
 
-The application version installed is 3.0.7. Existing signed D1 credentials from
+The application version installed is 3.0.8. Existing signed D1 credentials from
 the same publisher remain valid. No authorization or release public key changes
 are required. Old release tags and upgrade assets are preserved. Older commands
 pinned to an earlier bootstrap commit still install that older release; use the
-current installation-command.txt for 3.0.7.
+current installation-command.txt for 3.0.8.
 
 New installations use DHCP-safe LAN Web access on port 8787. Access follows the
 current private IPv4 subnet of the selected LAN interface; public sources are not
@@ -57,3 +57,9 @@ changing their permissions, and uses EC20 COPS access technology for native
 GSM/EDGE/WCDMA/LTE status. Already applied driver patches are preserved. No
 automatic RF reset or modem initialization is added; wait for the idle-only
 driver migration before checking radio status after an upgrade.
+
+3.0.8 restores CellPilot outgoing early media and local ringback without answering
+the SIM call early. It retains verified managed-driver provenance for subsequent
+migrations and rollback; unknown/custom builds are still protected. No temporary
+audio diagnostics are shipped. A separately observed CellPilot stop-timeout is
+not fixed here. Broader carrier, echo and customer-upgrade tests remain separate.
