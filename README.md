@@ -1,65 +1,40 @@
-# EC20 3.0.8 Customer Bootstrap
+# EC20 3.0.9 Customer Bootstrap
 
-Public installer entry only. This repository contains no gateway source,
-customer credentials, private keys, or customer data.
+Public installer entry only. No gateway source, customer credentials, private
+keys or customer data is stored in this repository.
 
-The publisher supplies a short command pinned to an immutable bootstrap commit
-and a separate, private delivery credential. Run the command in an interactive
-terminal on Debian 12/13 amd64, enter the root password when prompted, then
-paste the signed `D1` installation credential into the hidden prompt.
+Use [installation-command.txt](installation-command.txt) for the current pinned,
+ASCII-only installation command on Debian 12/13 amd64. Enter the root password,
+then paste the separate signed D1 installation credential into the hidden prompt.
+The command itself contains no private credential and may be shared publicly;
+the D1 credential must remain private.
 
-Use [installation-command.txt](installation-command.txt) for the pinned, ASCII-only
-3.0.8 installation command. The command itself contains no private credential.
+The bootstrap verifies the publisher signature and fetches private delivery tag
+`v3.0.9`, commit `994bbc1d7b010a07148a9375690d5810ab6df61c`. It checks the pinned commit and
+authorization public keys before starting the installation wizard. Existing D1
+credentials from the same publisher remain valid. Module activation is separate:
+read the usage notice, scan and initialize modules in Web, and obtain an
+installation/module-bound activation code from the publisher.
 
-The bootstrap verifies the credential using the publisher's public signing key,
-clones `v3.0.8` of the private delivery repository, checks commit
-`dccb8a13504bd6615991b6e7f2b10a1849403270` and the authorization public keys,
-then starts the installation wizard. Customers read and confirm the usage notice,
-scan and initialize modules through Web, and send the resulting application code
-to the publisher for an activation code. The activation binds the installation
-to one or two module IMEIs.
+## This Release
 
-The signed installation credential carries read-only repository access. Module
-activation is issued separately after initialization. Keep the credential private.
-Temporary credentials are removed on exit.
+- Start status snapshots automatically after timer activation, including delayed
+  startup; report an unavailable PBX without starting it from the collector.
+- Prevent an earlier serial wait from falsely timing out a newly sent keypad
+  command and disconnecting an active call.
+- Disable receive-side audio DTMF recognition to avoid the implicated long-call
+  voice suppression path. Phone keypad sending remains enabled.
+- Preserve previous ringback, radio status, managed-driver provenance, DHCP-safe
+  Web access and optional Cloudflare support. No new transport behavior is added.
 
-The application version installed is 3.0.8. Existing signed D1 credentials from
-the same publisher remain valid. No authorization or release public key changes
-are required. Old release tags and upgrade assets are preserved. Older commands
-pinned to an earlier bootstrap commit still install that older release; use the
-current installation-command.txt for 3.0.8.
+## Existing Installations
 
-New installations use DHCP-safe LAN Web access on port 8787. Access follows the
-current private IPv4 subnet of the selected LAN interface; public sources are not
-automatically permitted. Existing fixed listener configurations are not silently
-changed by an upgrade and require the documented one-time migration.
+Back up and finish calls, then update through Web Software Maintenance. Wait for
+program, dependency and driver tasks to finish. Driver activation may briefly
+restart Asterisk; do not initialize a working module again. Authorization,
+pairing and release trust are unchanged. Custom driver/configuration safety
+checks remain enforced. Publishing this entry does not update running gateways.
 
-Cloudflare fallback support is inherited from 3.0.3. The cloudflared daemon is
-installed only when explicitly requested through Web. Live Tunnel, Access and
-iPhone fallback validation remain separate from software regression.
-
-3.0.5 includes CellPilot reconnect and media recovery, independent bounded audio
-senders, direct TLS failure isolation, complete Feishu runtime checks and a Web
-OTP privacy toggle. Existing installations expose runtime dependency repair and
-chan_quectel migration as separate background update stages. Wait for those
-stages before phone acceptance. No new UDP transport or phone-side echo
-cancellation is included.
-
-3.0.6 fixes cold creation of the runtime and driver background services. Only
-actually failed units have their failure state reset. Optional queue failures are
-reported independently and no longer prevent the updater from resuming its
-original services. A machine already left with stopped services by a failed 3.0.5
-upgrade still needs explicit, verified recovery of those original services; this
-entry does not blindly start all services or reinitialize modules.
-
-3.0.7 fixes migration checks on verified old Asterisk build directories without
-changing their permissions, and uses EC20 COPS access technology for native
-GSM/EDGE/WCDMA/LTE status. Already applied driver patches are preserved. No
-automatic RF reset or modem initialization is added; wait for the idle-only
-driver migration before checking radio status after an upgrade.
-
-3.0.8 restores CellPilot outgoing early media and local ringback without answering
-the SIM call early. It retains verified managed-driver provenance for subsequent
-migrations and rollback; unknown/custom builds are still protected. No temporary
-audio diagnostics are shipped. A separately observed CellPilot stop-timeout is
-not fixed here. Broader carrier, echo and customer-upgrade tests remain separate.
+Older commands pinned to an earlier immutable commit still install that earlier
+release. Use the current command above for 3.0.9. Live carrier, firmware and
+network acceptance remain separate from software regression.
